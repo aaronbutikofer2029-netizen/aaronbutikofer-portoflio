@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aaron Butikofer — A Life in Four Acts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Special+Elite&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* Northwestern Purple + Playbill Yellow + Hamilton Navy/Brass */
+  --purple-deep:#1a0a2e;
+  --purple:#4e2a84;
+  --purple-mid:#6b3fa0;
+  --purple-lt:#9b6ed4;
+  --purple-dim:rgba(78,42,132,0.35);
+  --yellow:#ffe135;
+  --yellow-dk:#c9a800;
+  --yellow-dim:rgba(255,225,53,0.25);
+  --navy:#0d1b2a;
+  --navy-mid:#1b2f4a;
+  --brass:#b8952a;
+  --cream:#f5f0e8;
+  --paper:#fffbe6;
+  --ink:#1a0a2e;
+  --text:var(--cream);
+  --text-dim:rgba(245,240,232,0.55);
+  --text-faint:rgba(245,240,232,0.22);
+  --border:rgba(255,225,53,0.15);
+}
+
+body{
+  background:var(--navy);
+  color:var(--cream);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+/* ══════════════════════════════
+   PRE-SHOW
+══════════════════════════════ */
+#preshow{
+  position:fixed;
+  inset:0;
+  background:var(--purple-deep);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  cursor:pointer;
+}
+.preshow-inner{
+  text-align:center;
+  max-width:620px;
+  padding:2rem;
+}
+/* Playbill-yellow top bar */
+.preshow-topbar{
+  background:var(--yellow);
+  color:var(--ink);
+  font-family:'Special Elite',serif;
+  font-size:0.7rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  padding:0.5rem 1.5rem;
+  margin-bottom:0;
+}
+.preshow-box{
+  border:3px solid var(--yellow);
+  border-top:none;
+  padding:2.5rem 3.5rem 3rem;
+  background:var(--purple-deep);
+  position:relative;
+}
+.preshow-playbill{
+  font-family:'Special Elite',serif;
+  font-size:3rem;
+  color:var(--yellow);
+  letter-spacing:0.05em;
+  line-height:1;
+  margin-bottom:0.2rem;
+}
+.preshow-venue{
+  font-family:'Special Elite',serif;
+  font-size:0.68rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(255,225,53,0.55);
+  margin-bottom:2rem;
+}
+.preshow-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5.5vw,3.2rem);
+  font-weight:900;
+  line-height:1.05;
+  color:var(--cream);
+  margin-bottom:0.4rem;
+}
+.preshow-title em{font-style:italic;color:var(--yellow);}
+.preshow-sub{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:1rem;
+  color:var(--text-dim);
+  margin-bottom:1.8rem;
+}
+.preshow-announcement{
+  font-family:'Special Elite',serif;
+  font-size:0.75rem;
+  letter-spacing:0.05em;
+  color:var(--text-dim);
+  line-height:1.9;
+  border-top:1px solid rgba(255,225,53,0.2);
+  padding-top:1.4rem;
+  margin-top:1.4rem;
+  text-align:left;
+}
+.preshow-announcement strong{color:var(--yellow);}
+.pulse-btn{
+  display:inline-block;
+  margin-top:2rem;
+  font-family:'Special Elite',serif;
+  font-size:0.75rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--purple-deep);
+  background:var(--yellow);
+  padding:0.75rem 2.2rem;
+  animation:pulse 2.2s ease-in-out infinite;
+  cursor:pointer;
+  border:none;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
+#preshow.fade-out{animation:fadeOut 0.8s ease forwards;}
+@keyframes fadeOut{to{opacity:0;pointer-events:none;visibility:hidden;}}
+
+/* ══════════════════════════════
+   MAIN
+══════════════════════════════ */
+#main{visibility:hidden;opacity:0;transition:opacity 0.8s ease;}
+#main.visible{visibility:visible;opacity:1;}
+
+/* MARQUEE — yellow like a Playbill strip */
+.marquee-bar{
+  background:var(--yellow);
+  color:var(--ink);
+  font-family:'Special Elite',serif;
+  font-size:0.72rem;
+  letter-spacing:0.14em;
+  padding:0.45rem 0;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.marquee-inner{
+  display:inline-block;
+  animation:marquee 20s linear infinite;
+}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* PLAYBILL HEADER */
+.playbill-header{
+  background:var(--yellow);
+  padding:1.2rem 3rem 0;
+  text-align:center;
+}
+.playbill-logo-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1.5rem;
+  margin-bottom:0.3rem;
+}
+.playbill-logo{
+  font-family:'Special Elite',serif;
+  font-size:3.5rem;
+  color:var(--ink);
+  letter-spacing:0.05em;
+  line-height:1;
+}
+.playbill-r{
+  width:48px;height:48px;
+  background:var(--ink);
+  color:var(--yellow);
+  font-family:'Special Elite',serif;
+  font-size:1.8rem;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.playbill-venue{
+  font-family:'Special Elite',serif;
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(26,10,46,0.6);
+  margin-bottom:0.8rem;
+}
+/* purple cover section below yellow strip */
+.playbill-cover{
+  background:var(--purple);
+  padding:2.5rem 3rem 0;
+  text-align:center;
+}
+.playbill-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,9vw,6.5rem);
+  font-weight:900;
+  line-height:0.95;
+  letter-spacing:-0.02em;
+  color:var(--cream);
+}
+.playbill-name em{font-style:italic;color:var(--yellow);}
+.playbill-subtitle{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:1.2rem;
+  color:rgba(245,240,232,0.55);
+  margin:0.6rem 0 1.8rem;
+}
+.playbill-nav{
+  display:flex;
+  justify-content:center;
+  list-style:none;
+  border-top:1px solid rgba(255,225,53,0.25);
+  background:var(--purple-deep);
+}
+.playbill-nav a{
+  font-family:'Special Elite',serif;
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,0.45);
+  text-decoration:none;
+  padding:0.85rem 1.3rem;
+  border-right:1px solid rgba(255,225,53,0.12);
+  display:block;
+  transition:color 0.2s,background 0.2s;
+}
+.playbill-nav li:first-child a{border-left:1px solid rgba(255,225,53,0.12);}
+.playbill-nav a:hover{color:var(--yellow);background:rgba(255,225,53,0.07);}
+
+/* PROGRAM NOTE — paper yellow */
+.program-note{
+  background:var(--paper);
+  color:var(--ink);
+  padding:2.5rem 3rem;
+  border-top:4px double var(--yellow-dk);
+  border-bottom:4px double var(--yellow-dk);
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:3rem;
+  align-items:start;
+}
+.program-note-head{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  font-weight:700;
+  line-height:1.2;
+  color:var(--ink);
+}
+.program-note-head em{font-style:italic;color:var(--purple);}
+.program-note-body{
+  font-size:0.9rem;
+  line-height:1.9;
+  color:#2a1f4a;
+  font-weight:300;
+}
+.program-note-body p+p{margin-top:0.9rem;}
+.note-facts{
+  margin-top:1.2rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.5rem;
+}
+.fact-tag{
+  font-family:'Special Elite',serif;
+  font-size:0.62rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  border:1px solid var(--purple-dim);
+  color:var(--purple);
+  padding:0.3rem 0.7rem;
+  border-radius:2px;
+}
+
+/* SECTIONS */
+section,.act-content{
+  padding:4rem 3rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+/* ACT DIVIDERS */
+.act-divider{
+  text-align:center;
+  padding:3rem 2rem 1.5rem;
+  background:var(--purple-deep);
+  border-top:1px solid rgba(255,225,53,0.12);
+}
+.act-label{
+  font-family:'Special Elite',serif;
+  font-size:0.7rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:rgba(255,225,53,0.5);
+  margin-bottom:0.4rem;
+}
+.act-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:900;
+  color:var(--cream);
+  line-height:1.1;
+}
+.act-title em{font-style:italic;color:var(--yellow);}
+.act-tagline{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:rgba(245,240,232,0.35);
+  font-size:0.95rem;
+  margin-top:0.5rem;
+}
+.act-rule{border:none;border-top:1px solid rgba(255,225,53,0.15);margin:0;}
+
+/* ACT WRAPPER bg alternation */
+.act-wrap-dark{background:var(--navy);}
+.act-wrap-purple{background:var(--purple-deep);}
+
+/* EDUCATION */
+.edu-block{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2rem;
+  margin-top:2rem;
+}
+.edu-card{
+  border:1px solid rgba(255,225,53,0.2);
+  padding:2rem;
+  position:relative;
+  transition:border-color 0.2s,background 0.2s;
+  background:rgba(255,225,53,0.03);
+}
+.edu-card:hover{border-color:var(--yellow);background:rgba(255,225,53,0.06);}
+.edu-card-num{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:4rem;
+  color:rgba(255,225,53,0.08);
+  position:absolute;
+  top:0.8rem;right:1rem;
+  line-height:1;
+}
+.edu-school{
+  font-family:'Special Elite',serif;
+  font-size:0.62rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  margin-bottom:0.6rem;
+}
+.edu-degree{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;
+  font-weight:700;
+  line-height:1.25;
+  margin-bottom:0.5rem;
+  color:var(--cream);
+}
+.edu-detail{font-size:0.82rem;color:var(--text-dim);line-height:1.7;}
+.gpa-big{
+  font-family:'Playfair Display',serif;
+  font-size:3rem;
+  color:var(--yellow);
+  font-weight:900;
+  margin-top:1rem;
+  line-height:1;
+}
+.gpa-lbl{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);}
+.honors-strip{
+  margin-top:2rem;
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
+}
+.honor{
+  flex:1;min-width:180px;
+  border-left:3px solid var(--yellow);
+  padding:0.8rem 1rem;
+  background:rgba(255,225,53,0.04);
+}
+.honor-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cream);margin-bottom:0.2rem;}
+.honor-sub{font-size:0.73rem;color:var(--text-dim);}
+
+/* PROJECTS */
+.projects-list{display:flex;flex-direction:column;}
+.project-row{
+  display:grid;
+  grid-template-columns:70px 1fr 32px;
+  align-items:start;
+  gap:2rem;
+  padding:2rem 0;
+  border-bottom:0.5px solid rgba(255,225,53,0.1);
+  cursor:pointer;
+  transition:background 0.15s;
+  border-radius:4px;
+}
+.project-row:first-child{border-top:0.5px solid rgba(255,225,53,0.1);}
+.project-row:hover{background:rgba(255,225,53,0.04);}
+.proj-num{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:3rem;
+  color:rgba(255,225,53,0.15);
+  line-height:1;
+  text-align:right;
+}
+.proj-tag{
+  font-family:'Special Elite',serif;
+  font-size:0.6rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  margin-bottom:0.4rem;
+}
+.proj-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;
+  font-weight:700;
+  margin-bottom:0.5rem;
+  line-height:1.2;
+  color:var(--cream);
+}
+.proj-desc{font-size:0.84rem;color:var(--text-dim);line-height:1.7;font-weight:300;}
+.proj-arrow{font-size:1.2rem;color:rgba(255,225,53,0.25);padding-top:0.4rem;transition:color 0.2s,transform 0.2s;}
+.project-row:hover .proj-arrow{color:var(--yellow);transform:translate(3px,-3px);}
+.proj-detail-panel{
+  display:none;
+  padding:1.5rem 1.5rem 1.5rem calc(70px + 2rem);
+  background:rgba(78,42,132,0.18);
+  border-bottom:0.5px solid rgba(255,225,53,0.1);
+  border-left:3px solid var(--yellow);
+  font-size:0.84rem;
+  color:var(--text-dim);
+  line-height:1.8;
+}
+.proj-detail-panel.open{display:block;}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column;}
+.exp-row{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:2rem;
+  padding:2rem 0;
+  border-bottom:0.5px solid rgba(255,225,53,0.1);
+}
+.exp-row:first-child{border-top:0.5px solid rgba(255,225,53,0.1);}
+.exp-period{
+  font-family:'Special Elite',serif;
+  font-size:0.62rem;
+  letter-spacing:0.08em;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  padding-top:0.25rem;
+}
+.exp-org{
+  font-family:'Special Elite',serif;
+  font-size:0.62rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--yellow);
+  margin-bottom:0.35rem;
+}
+.exp-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:0.5rem;
+  color:var(--cream);
+}
+.exp-body{font-size:0.83rem;color:var(--text-dim);line-height:1.7;font-weight:300;}
+
+/* GOALS */
+.goals-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1.5rem;
+  margin-top:2rem;
+}
+.goal-card{
+  border:1px solid rgba(255,225,53,0.18);
+  padding:2rem 1.5rem;
+  background:rgba(255,225,53,0.03);
+  transition:border-color 0.2s,background 0.2s;
+}
+.goal-card:hover{border-color:var(--yellow);background:rgba(255,225,53,0.07);}
+.goal-icon{font-size:1.7rem;margin-bottom:1rem;}
+.goal-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;color:var(--cream);}
+.goal-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.7;}
+
+/* CURTAIN CALL — Playbill yellow */
+.curtain-call{
+  background:var(--yellow);
+  color:var(--ink);
+  padding:4rem 3rem;
+  text-align:center;
+  border-top:4px double var(--yellow-dk);
+}
+.curtain-head{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:900;
+  color:var(--ink);
+  margin-bottom:0.4rem;
+}
+.curtain-head em{font-style:italic;color:var(--purple);}
+.curtain-sub{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:rgba(26,10,46,0.55);
+  font-size:1rem;
+  margin-bottom:2.5rem;
+}
+.curtain-links{
+  display:flex;
+  justify-content:center;
+  gap:1.2rem;
+  flex-wrap:wrap;
+}
+.curtain-link{
+  font-family:'Special Elite',serif;
+  font-size:0.72rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--ink);
+  text-decoration:none;
+  border:2px solid var(--ink);
+  padding:0.8rem 1.8rem;
+  transition:background 0.2s,color 0.2s;
+}
+.curtain-link:hover{background:var(--purple);color:var(--yellow);border-color:var(--purple);}
+
+/* FOOTER */
+.footer-strip{
+  background:var(--purple-deep);
+  border-top:1px solid rgba(255,225,53,0.12);
+  padding:1.5rem 3rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:'Special Elite',serif;
+  font-size:0.62rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+@media(max-width:700px){
+  .playbill-header,.playbill-cover{padding-left:1.5rem;padding-right:1.5rem;}
+  .playbill-nav a{padding:0.65rem 0.7rem;font-size:0.6rem;}
+  .program-note{grid-template-columns:1fr;gap:1.5rem;padding:2rem 1.5rem;}
+  section,.act-content{padding:2.5rem 1.5rem;}
+  .edu-block{grid-template-columns:1fr;}
+  .project-row{grid-template-columns:44px 1fr 28px;gap:1rem;}
+  .proj-detail-panel{padding-left:calc(44px + 1rem);}
+  .exp-row{grid-template-columns:1fr;gap:0.3rem;}
+  .curtain-call{padding:3rem 1.5rem;}
+  .footer-strip{padding:1.2rem 1.5rem;flex-direction:column;gap:0.5rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- PRE-SHOW -->
+<div id="preshow" onclick="startShow()">
+  <div class="preshow-inner">
+    <div class="preshow-topbar">Please silence your phones &nbsp;✦&nbsp; Tonight's performance contains juggling</div>
+    <div class="preshow-box">
+      <div class="preshow-playbill">PLAYBILL</div>
+      <div class="preshow-venue">Ryan Field · Evanston, Illinois</div>
+      <div class="preshow-title">A Life in<br><em>Four Acts</em></div>
+      <div class="preshow-sub">Starring Aaron Butikofer</div>
+      <div class="preshow-announcement">
+        <strong>Tonight's cast</strong> includes one Northwestern dual-degree student,<br>
+        five years of lifeguarding, an Eagle Scout badge,<br>
+        a choir that actually sounds good, two DTC projects,<br>
+        and an unreasonable love of the Detroit Lions<br>
+        and chocolate chip cookies.<br><br>
+        <strong>Late arrivals</strong> will be seated between acts.
+      </div>
+      <div class="pulse-btn">Click anywhere to begin</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <div class="marquee-bar">
+    <span class="marquee-inner">
+      ✦ NORTHWESTERN UNIVERSITY ✦ PERFORMANCE ART ✦ CIVIL ENGINEERING ✦ CEDAR RAPIDS ✦ EAGLE SCOUT ✦ ALL-STATE CHOIR ✦ VALEDICTORIAN ✦ DETROIT LIONS ✦ CHOCOLATE CHIP COOKIES ✦ JUGGLING ✦ WAA-MU SHOW ✦ NORTHWESTERN UNIVERSITY ✦ PERFORMANCE ART ✦ CIVIL ENGINEERING ✦ CEDAR RAPIDS ✦ EAGLE SCOUT ✦ ALL-STATE CHOIR ✦ VALEDICTORIAN ✦ DETROIT LIONS ✦ CHOCOLATE CHIP COOKIES ✦ JUGGLING ✦ WAA-MU SHOW ✦&nbsp;
+    </span>
+  </div>
+
+  <!-- Playbill yellow top -->
+  <header class="playbill-header">
+    <div class="playbill-logo-row">
+      <div class="playbill-logo">PLAYBILL</div>
+      <div class="playbill-r">R</div>
+    </div>
+    <div class="playbill-venue">Northwestern University · Evanston, Illinois</div>
+  </header>
+
+  <!-- Purple cover -->
+  <div class="playbill-cover">
+    <div class="playbill-name">Aaron<br><em>Butikofer</em></div>
+    <div class="playbill-subtitle">A Life in Four Acts</div>
+    <nav>
+      <ul class="playbill-nav">
+        <li><a href="#act1">Act I — Education</a></li>
+        <li><a href="#act2">Act II — Projects</a></li>
+        <li><a href="#act3">Act III — Experience</a></li>
+        <li><a href="#act4">Act IV — Goals</a></li>
+        <li><a href="#curtain">Curtain Call</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Program note -->
+  <div class="program-note">
+    <div class="program-note-head">A note from<br>the <em>artist.</em></div>
+    <div class="program-note-body">
+      <p>I'm a dual-degree student at Northwestern studying Performance Art and Civil Engineering — two disciplines that are more alike than they seem. Both require precision, collaboration, and the ability to build something that holds an audience (or a building) up.</p>
+      <p><!-- ✏️ REPLACE with your own words — who are you, what drives you, what do you want people to know about you? -->
+      I grew up in Cedar Rapids, Iowa, where I was valedictorian of my high school class and earned the rank of Eagle Scout. I write about Northwestern athletics, manage equipment for our teams, sing in Beinen Chorale, coach wrestling, and — yes — juggle. I care about community, performance, and doing things well.</p>
+      <div class="note-facts">
+        <span class="fact-tag">Theater &amp; Performance</span>
+        <span class="fact-tag">Civil Engineering</span>
+        <span class="fact-tag">Athletics Media</span>
+        <span class="fact-tag">All-State Choir</span>
+        <span class="fact-tag">Eagle Scout</span>
+        <span class="fact-tag">Valedictorian</span>
+        <span class="fact-tag">Juggler</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACT I -->
+  <div id="act1" class="act-wrap-purple">
+    <div class="act-divider reveal">
+      <div class="act-label">Act I</div>
+      <div class="act-title">The <em>Education</em></div>
+      <div class="act-tagline">"Where it all began — and where it's going."</div>
+    </div>
+    <hr class="act-rule"/>
+    <div class="act-content reveal">
+      <div class="edu-block">
+        <div class="edu-card">
+          <div class="edu-card-num">I</div>
+          <div class="edu-school">Northwestern University · Evanston, IL</div>
+          <div class="edu-degree">Bachelor of Performance Art &amp; Civil Engineering</div>
+          <div class="edu-detail">A dual degree combining the precision of structural systems with the humanity of live performance. Anticipated June 2029.</div>
+          <div class="gpa-big">3.55</div>
+          <div class="gpa-lbl">Cumulative GPA</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-card-num">II</div>
+          <!-- ✏️ ADD your high school name -->
+          <div class="edu-school">High School · Cedar Rapids, IA</div>
+          <div class="edu-degree">High School Diploma<br><!-- ✏️ School name --></div>
+          <div class="edu-detail">Graduated as class valedictorian. Active in choir, athletics, and community service. Earned Eagle Scout rank 2021.
+          <!-- ✏️ Add clubs, activities, anything else notable --></div>
+        </div>
+      </div>
+      <div class="honors-strip">
+        <div class="honor">
+          <div class="honor-title">Valedictorian</div>
+          <div class="honor-sub">Top of graduating class · Cedar Rapids</div>
+        </div>
+        <div class="honor">
+          <div class="honor-title">All-State Choir</div>
+          <!-- ✏️ Add year -->
+          <div class="honor-sub">Selected Iowa All-State performer</div>
+        </div>
+        <div class="honor">
+          <div class="honor-title">Eagle Scout</div>
+          <div class="honor-sub">Highest rank in scouting · 2021</div>
+        </div>
+        <div class="honor">
+          <div class="honor-title">Delta Sigma Pi</div>
+          <div class="honor-sub">Business Fraternity · Northwestern</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACT II -->
+  <div id="act2" class="act-wrap-dark">
+    <div class="act-divider reveal">
+      <div class="act-label">Act II</div>
+      <div class="act-title">The <em>Projects</em></div>
+      <div class="act-tagline">"Things built. Problems solved. Stories told."</div>
+    </div>
+    <hr class="act-rule"/>
+    <div class="act-content reveal">
+      <div class="projects-list">
+
+        <div class="project-row" onclick="toggleDetail('d1')">
+          <div class="proj-num">01</div>
+          <div>
+            <div class="proj-tag">DTC · Spica Align</div>
+            <!-- ✏️ REPLACE with real title -->
+            <div class="proj-title">Project One Title</div>
+            <!-- ✏️ REPLACE with one-sentence description -->
+            <div class="proj-desc">Click to expand — describe your first Spica Align project here.</div>
+          </div>
+          <div class="proj-arrow">↗</div>
+        </div>
+        <div class="proj-detail-panel" id="d1">
+          <!-- ✏️ FULL description — what did you build? what was your role? what did you learn? -->
+          Add the full description of your first DTC project here. Tell me the details and I'll write it up.
+        </div>
+
+        <div class="project-row" onclick="toggleDetail('d2')">
+          <div class="proj-num">02</div>
+          <div>
+            <div class="proj-tag">DTC · Spica Align</div>
+            <!-- ✏️ REPLACE with real title -->
+            <div class="proj-title">Project Two Title</div>
+            <!-- ✏️ REPLACE with one-sentence description -->
+            <div class="proj-desc">Click to expand — describe your second Spica Align project here.</div>
+          </div>
+          <div class="proj-arrow">↗</div>
+        </div>
+        <div class="proj-detail-panel" id="d2">
+          <!-- ✏️ FULL description -->
+          Add the full description of your second DTC project here.
+        </div>
+
+        <div class="project-row" onclick="toggleDetail('d3')">
+          <div class="proj-num">03</div>
+          <div>
+            <div class="proj-tag">Athletics Media · Northwestern</div>
+            <div class="proj-title">Sports Journalism &amp; Coverage</div>
+            <div class="proj-desc">Game recaps, coach interviews, and features for Northwestern Athletics publications.</div>
+          </div>
+          <div class="proj-arrow">↗</div>
+        </div>
+        <div class="proj-detail-panel" id="d3">
+          Writing and editing sports articles, game recaps, and coach interviews for Northwestern Athletics publications. Interviewing players and staff to create engaging, insight-driven coverage. Collaborating with photographers and media teams to deliver well-rounded stories.
+          <!-- ✏️ Add links to any articles you've written -->
+        </div>
+
+        <div class="project-row" onclick="toggleDetail('d4')">
+          <div class="proj-num">04</div>
+          <div>
+            <div class="proj-tag">Community · Eagle Scout</div>
+            <div class="proj-title">Eagle Scout Service Project</div>
+            <!-- ✏️ REPLACE with your actual project description -->
+            <div class="proj-desc">A community-focused service project demonstrating leadership, planning, and follow-through.</div>
+          </div>
+          <div class="proj-arrow">↗</div>
+        </div>
+        <div class="proj-detail-panel" id="d4">
+          <!-- ✏️ What did you build or organize? Where? How many people helped? What was the impact? -->
+          Add your Eagle Scout project description here.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ACT III -->
+  <div id="act3" class="act-wrap-purple">
+    <div class="act-divider reveal">
+      <div class="act-label">Act III</div>
+      <div class="act-title">The <em>Experience</em></div>
+      <div class="act-tagline">"A career built one lifeguard stand, press box, and stage at a time."</div>
+    </div>
+    <hr class="act-rule"/>
+    <div class="act-content reveal">
+      <div class="exp-list">
+
+        <div class="exp-row">
+          <div class="exp-period">May–Sep 2026</div>
+          <div>
+            <div class="exp-org">Cedar Rapids Aquatics</div>
+            <div class="exp-title">Manager</div>
+            <div class="exp-body">Managing daily operations of a public pool serving thousands of patrons monthly. Supervising, training, and scheduling lifeguards. Processing payroll and maintaining attendance records.</div>
+          </div>
+        </div>
+
+        <div class="exp-row">
+          <div class="exp-period">Sep 2025–Present</div>
+          <div>
+            <div class="exp-org">Northwestern Athletics Media</div>
+            <div class="exp-title">Sportswriter</div>
+            <div class="exp-body">Writing and editing game recaps and coach interviews for Northwestern Athletics. Collaborating with photographers and media teams to deliver stories that capture Wildcat athletics.</div>
+          </div>
+        </div>
+
+        <div class="exp-row">
+          <div class="exp-period">Sep 2025–Present</div>
+          <div>
+            <div class="exp-org">Northwestern Athletics</div>
+            <div class="exp-title">Equipment Manager</div>
+            <div class="exp-body">Supporting athletic teams by maintaining, organizing, and distributing equipment for practices and games. Coordinating inventory with coaching staff.</div>
+          </div>
+        </div>
+
+        <div class="exp-row">
+          <div class="exp-period">2021–Present</div>
+          <div>
+            <div class="exp-org">Cedar Rapids Aquatics</div>
+            <div class="exp-title">Lifeguard &amp; Head Guard</div>
+            <div class="exp-body">Co-managing a public pool serving thousands of monthly visitors. Responding to emergencies with composure. Maintaining a safe, professional, and positive environment.</div>
+          </div>
+        </div>
+
+        <div class="exp-row">
+          <div class="exp-period">Sep 2025–Present</div>
+          <div>
+            <div class="exp-org">Beinen Chorale Singers — Northwestern</div>
+            <div class="exp-title">Choir Member &amp; Performer</div>
+            <!-- ✏️ Add concerts, repertoire, specific moments -->
+            <div class="exp-body">Performing in Northwestern's collegiate choir emphasizing discipline, ensemble collaboration, and live performance. Add specific shows or repertoire here.</div>
+          </div>
+        </div>
+
+        <!-- ✏️ ADD YOUR THEATER PRODUCTIONS HERE
+        Copy this block and fill it in for each show:
+        <div class="exp-row">
+          <div class="exp-period">Year</div>
+          <div>
+            <div class="exp-org">Theater Company or School Name</div>
+            <div class="exp-title">Show Title — Your Role</div>
+            <div class="exp-body">A sentence about the production.</div>
+          </div>
+        </div>
+        -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ACT IV -->
+  <div id="act4" class="act-wrap-dark">
+    <div class="act-divider reveal">
+      <div class="act-label">Act IV</div>
+      <div class="act-title">The <em>Goals</em></div>
+      <div class="act-tagline">"What comes next — the sequel is already in development."</div>
+    </div>
+    <hr class="act-rule"/>
+    <div class="act-content reveal">
+      <div class="goals-grid">
+        <!-- ✏️ REPLACE ALL OF THESE with your actual goals and dreams in your own words -->
+        <div class="goal-card">
+          <div class="goal-icon">🎭</div>
+          <div class="goal-title">Perform on a real stage</div>
+          <div class="goal-desc"><!-- ✏️ What are your theater ambitions? Where do you want to perform? What roles? What kind of work? -->Add your performance goals here.</div>
+        </div>
+        <div class="goal-card">
+          <div class="goal-icon">🏗️</div>
+          <div class="goal-title">Build something that lasts</div>
+          <div class="goal-desc"><!-- ✏️ What do you want to build as an engineer? What problems interest you? -->Add your engineering goals here.</div>
+        </div>
+        <div class="goal-card">
+          <div class="goal-icon">📰</div>
+          <div class="goal-title">Tell important stories</div>
+          <div class="goal-desc"><!-- ✏️ What do you want to cover as a journalist? What stories matter to you? -->Add your journalism goals here.</div>
+        </div>
+        <div class="goal-card">
+          <div class="goal-icon">🌆</div>
+          <div class="goal-title">Ride every transit system</div>
+          <div class="goal-desc">A lifelong obsession with how cities move people. The NYC subway, the Chicago L, and every metro in between.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURTAIN CALL -->
+  <div id="curtain" class="curtain-call">
+    <div class="curtain-head">Take a bow.<br><em>Then reach out.</em></div>
+    <div class="curtain-sub">The show's not over — there's a whole second act waiting to be written.</div>
+    <div class="curtain-links">
+      <a href="mailto:aaronbutikofer2029@u.northwestern.edu" class="curtain-link">✉ Email</a>
+      <a href="https://www.linkedin.com/in/aaron-butikofer2" target="_blank" class="curtain-link">LinkedIn</a>
+      <a href="tel:3193618366" class="curtain-link">☎ Call</a>
+    </div>
+  </div>
+
+  <footer class="footer-strip">
+    <span>© 2026 Aaron Butikofer</span>
+    <span>Cedar Rapids · Evanston · Everywhere Else</span>
+  </footer>
+
+</div>
+
+<script>
+function startShow(){
+  document.getElementById('preshow').classList.add('fade-out');
+  setTimeout(()=>{
+    document.getElementById('main').classList.add('visible');
+  },600);
+}
+function toggleDetail(id){
+  const p=document.getElementById(id);
+  const open=p.classList.contains('open');
+  document.querySelectorAll('.proj-detail-panel').forEach(x=>x.classList.remove('open'));
+  if(!open)p.classList.add('open');
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
