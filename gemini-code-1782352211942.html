@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aaron Butikofer — A Resume in Three Acts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Special+Elite&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+--purple-deep:#1a0a2e;
+--purple:#4e2a84;
+--yellow:#ffe135;
+--yellow-dk:#c9a800;
+--navy:#0d1b2a;
+--cream:#f5f0e8;
+--paper:#fffbe6;
+--ink:#1a0a2e;
+--text-dim:rgba(245,240,232,0.55);
+--text-faint:rgba(245,240,232,0.22);
+--purple-dim:rgba(78,42,132,0.35);
+}
+body{background:var(--navy);color:var(--cream);font-family:'Inter',sans-serif;overflow-x:hidden;}
+/* PRE-SHOW */
+#preshow{position:fixed;inset:0;z-index:999;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.preshow-bg{position:absolute;inset:0;background-image:url('data:image/jpeg;base64,{imgs["leaves_portrait"]}');background-size:cover;background-position:center top;filter:brightness(0.32);}
+.preshow-inner{position:relative;text-align:center;max-width:600px;padding:2rem;}
+.preshow-topbar{background:var(--yellow);color:var(--ink);font-family:'Special Elite',serif;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;padding:0.5rem 1.5rem;}
+.preshow-box{border:3px solid var(--yellow);border-top:none;padding:2.5rem 3.5rem 3rem;background:rgba(26,10,46,0.88);backdrop-filter:blur(4px);}
+.preshow-playbill{font-family:'Special Elite',serif;font-size:3rem;color:var(--yellow);letter-spacing:0.05em;line-height:1;margin-bottom:0.2rem;}
+.preshow-venue{font-family:'Special Elite',serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,225,53,0.55);margin-bottom:2rem;}
+.preshow-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5.5vw,3.2rem);font-weight:900;line-height:1.05;color:var(--cream);margin-bottom:0.4rem;}
+.preshow-title em{font-style:italic;color:var(--yellow);}
+.preshow-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--text-dim);margin-bottom:1.8rem;}
+.preshow-announcement{font-family:'Special Elite',serif;font-size:0.75rem;letter-spacing:0.05em;color:var(--text-dim);line-height:1.9;border-top:1px solid rgba(255,225,53,0.2);padding-top:1.4rem;margin-top:1.4rem;text-align:left;}
+.preshow-announcement strong{color:var(--yellow);}
+.pulse-btn{display:inline-block;margin-top:2rem;font-family:'Special Elite',serif;font-size:0.75rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--purple-deep);background:var(--yellow);padding:0.75rem 2.2rem;animation:pulse 2.2s ease-in-out infinite;cursor:pointer;border:none;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
+#preshow.fade-out{animation:fadeOut 0.8s ease forwards;}
+@keyframes fadeOut{to{opacity:0;pointer-events:none;visibility:hidden;}}
+/* MAIN */
+#main{visibility:hidden;opacity:0;transition:opacity 0.8s ease;}
+#main.visible{visibility:visible;opacity:1;}
+/* MARQUEE */
+.marquee-bar{background:var(--yellow);color:var(--ink);font-family:'Special Elite',serif;font-size:0.72rem;letter-spacing:0.14em;padding:0.45rem 0;white-space:nowrap;overflow:hidden;}
+.marquee-inner{display:inline-block;animation:marquee 32s linear infinite;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+/* PLAYBILL HEADER */
+.playbill-header{background:var(--yellow);padding:1.2rem 3rem 0;text-align:center;}
+.playbill-logo-row{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:0.3rem;}
+.playbill-logo{font-family:'Special Elite',serif;font-size:3.5rem;color:var(--ink);letter-spacing:0.05em;line-height:1;}
+.playbill-r{width:48px;height:48px;background:var(--ink);color:var(--yellow);font-family:'Special Elite',serif;font-size:1.8rem;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;}
+.playbill-venue{font-family:'Special Elite',serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(26,10,46,0.6);margin-bottom:0.8rem;}
+/* COVER — side by side Playbill layout */
+.playbill-cover-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:520px;}
+.playbill-cover-photo{position:relative;overflow:hidden;}
+.playbill-cover-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;min-height:400px;}
+.playbill-cover-info{background:var(--purple);display:flex;flex-direction:column;justify-content:flex-end;padding:3rem;}
+.playbill-name{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4.5rem);font-weight:900;line-height:0.95;letter-spacing:-0.02em;color:var(--cream);}
+.playbill-name em{font-style:italic;color:var(--yellow);}
+.playbill-subtitle{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:rgba(245,240,232,0.55);margin:0.8rem 0 2rem;}
+.playbill-nav{list-style:none;border-top:1px solid rgba(255,225,53,0.25);padding-top:1.5rem;display:flex;flex-direction:column;gap:0;}
+.playbill-nav a{font-family:'Special Elite',serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(245,240,232,0.45);text-decoration:none;padding:0.6rem 0;border-bottom:1px solid rgba(255,225,53,0.1);display:block;transition:color 0.2s;}
+.playbill-nav a:hover{color:var(--yellow);}
+/* HALF SWITCHER */
+.half-switcher{background:var(--purple-deep);display:flex;justify-content:center;padding:1.5rem;gap:1rem;border-bottom:1px solid rgba(255,225,53,0.15);}
+.half-btn{font-family:'Special Elite',serif;font-size:0.78rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.75rem 2.5rem;border:2px solid rgba(255,225,53,0.4);background:transparent;color:var(--text-dim);cursor:pointer;transition:all 0.2s;}
+.half-btn.active{background:var(--yellow);color:var(--ink);border-color:var(--yellow);}
+.half-btn:hover:not(.active){border-color:var(--yellow);color:var(--yellow);}
+.half-panel{display:none;}
+.half-panel.active{display:block;}
+/* PROGRAM NOTE */
+.program-note{background:var(--paper);color:var(--ink);padding:2.5rem 3rem;border-top:4px double var(--yellow-dk);border-bottom:4px double var(--yellow-dk);display:grid;grid-template-columns:1fr 2fr;gap:3rem;align-items:start;}
+.program-note-head{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;line-height:1.2;color:var(--ink);}
+.program-note-head em{font-style:italic;color:var(--purple);}
+.program-note-body{font-size:0.9rem;line-height:1.9;color:#2a1f4a;font-weight:300;}
+.program-note-body p+p{margin-top:0.9rem;}
+.note-facts{margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:0.5rem;}
+.fact-tag{font-family:'Special Elite',serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(78,42,132,0.35);color:var(--purple);padding:0.3rem 0.7rem;border-radius:2px;}
+/* ACT STRUCTURE */
+.act-wrap-dark{background:var(--navy);}
+.act-wrap-purple{background:var(--purple-deep);}
+.act-divider{text-align:center;padding:3rem 2rem 1.5rem;background:var(--purple-deep);border-top:1px solid rgba(255,225,53,0.12);}
+.act-label{font-family:'Special Elite',serif;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,225,53,0.5);margin-bottom:0.4rem;}
+.act-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--cream);line-height:1.1;}
+.act-title em{font-style:italic;color:var(--yellow);}
+.act-rule{border:none;border-top:1px solid rgba(255,225,53,0.15);margin:0;}
+.act-content{padding:4rem 3rem;max-width:1100px;margin:0 auto;}
+/* EDUCATION */
+.edu-block{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem;}
+.edu-card{border:1px solid rgba(255,225,53,0.2);padding:2rem;position:relative;transition:border-color 0.2s,background 0.2s;background:rgba(255,225,53,0.03);}
+.edu-card:hover{border-color:var(--yellow);background:rgba(255,225,53,0.06);}
+.edu-card-num{font-family:'Playfair Display',serif;font-style:italic;font-size:4rem;color:rgba(255,225,53,0.08);position:absolute;top:0.8rem;right:1rem;line-height:1;}
+.edu-school{font-family:'Special Elite',serif;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.6rem;}
+.edu-degree{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;line-height:1.25;margin-bottom:0.5rem;color:var(--cream);}
+.edu-detail{font-size:0.82rem;color:var(--text-dim);line-height:1.7;}
+.edu-detail li{margin-left:1.2rem;margin-top:0.25rem;list-style:disc;}
+.gpa-big{font-family:'Playfair Display',serif;font-size:3rem;color:var(--yellow);font-weight:900;margin-top:1rem;line-height:1;}
+.gpa-lbl{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);}
+.honors-strip{margin-top:2rem;display:flex;gap:1.5rem;flex-wrap:wrap;}
+.honor{flex:1;min-width:180px;border-left:3px solid var(--yellow);padding:0.8rem 1rem;background:rgba(255,225,53,0.04);}
+.honor-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cream);margin-bottom:0.2rem;}
+.honor-sub{font-size:0.73rem;color:var(--text-dim);}
+.edu-photo{margin-top:1.2rem;overflow:hidden;border:1px solid rgba(255,225,53,0.15);}
+.edu-photo img{width:100%;height:220px;object-fit:cover;object-position:center top;display:block;}
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:2rem;}
+.skill-block{border:1px solid rgba(255,225,53,0.15);padding:1.5rem;background:rgba(255,225,53,0.02);}
+.skill-category{font-family:'Special Elite',serif;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.8rem;}
+.skill-items{font-size:0.82rem;color:var(--text-dim);line-height:1.9;}
+/* PROJECTS */
+.projects-list{display:flex;flex-direction:column;}
+.project-row{display:grid;grid-template-columns:64px 1fr 28px;align-items:start;gap:1.5rem;padding:2rem 0;border-bottom:0.5px solid rgba(255,225,53,0.1);cursor:pointer;transition:background 0.15s;border-radius:4px;}
+.project-row:first-child{border-top:0.5px solid rgba(255,225,53,0.1);}
+.project-row:hover{background:rgba(255,225,53,0.04);}
+.proj-num{font-family:'Playfair Display',serif;font-style:italic;font-size:2.8rem;color:rgba(255,225,53,0.15);line-height:1;text-align:right;}
+.proj-tag{font-family:'Special Elite',serif;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.4rem;}
+.proj-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.4rem;line-height:1.2;color:var(--cream);}
+.proj-desc{font-size:0.84rem;color:var(--text-dim);line-height:1.7;font-weight:300;}
+.proj-arrow{font-size:1.1rem;color:rgba(255,225,53,0.25);padding-top:0.4rem;transition:color 0.2s,transform 0.2s;}
+.project-row:hover .proj-arrow{color:var(--yellow);transform:translate(3px,-3px);}
+.proj-detail-panel{display:none;padding:1.5rem 1.5rem 1.5rem calc(64px + 1.5rem);background:rgba(78,42,132,0.18);border-bottom:0.5px solid rgba(255,225,53,0.1);border-left:3px solid var(--yellow);font-size:0.84rem;color:var(--text-dim);line-height:1.8;}
+.proj-detail-panel.open{display:block;}
+.proj-photo{margin-top:1rem;overflow:hidden;border:1px solid rgba(255,225,53,0.2);}
+.proj-photo img{width:100%;display:block;object-fit:cover;}
+.proj-photo.portrait img{max-height:480px;object-position:center top;}
+.proj-photo.landscape img{max-height:320px;}
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column;}
+.exp-row{display:grid;grid-template-columns:150px 1fr;gap:2rem;padding:2rem 0;border-bottom:0.5px solid rgba(255,225,53,0.1);}
+.exp-row:first-child{border-top:0.5px solid rgba(255,225,53,0.1);}
+.exp-period{font-family:'Special Elite',serif;font-size:0.62rem;letter-spacing:0.08em;color:var(--text-faint);text-transform:uppercase;padding-top:0.25rem;}
+.exp-org{font-family:'Special Elite',serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.35rem;}
+.exp-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:0.4rem;color:var(--cream);}
+.exp-body{font-size:0.83rem;color:var(--text-dim);line-height:1.7;font-weight:300;}
+.exp-photo{margin-top:1rem;overflow:hidden;border:1px solid rgba(255,225,53,0.15);}
+.exp-photo img{width:100%;max-height:280px;object-fit:cover;object-position:center top;display:block;}
+/* CURTAIN CALL */
+.curtain-call{background:var(--yellow);color:var(--ink);padding:4rem 3rem;text-align:center;border-top:4px double var(--yellow-dk);}
+.curtain-head{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--ink);margin-bottom:0.4rem;}
+.curtain-head em{font-style:italic;color:var(--purple);}
+.curtain-sub{font-family:'Playfair Display',serif;font-style:italic;color:rgba(26,10,46,0.55);font-size:1rem;margin-bottom:2.5rem;}
+.curtain-links{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;}
+.curtain-link{font-family:'Special Elite',serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:2px solid var(--ink);padding:0.8rem 1.8rem;transition:background 0.2s,color 0.2s;}
+.curtain-link:hover{background:var(--purple);color:var(--yellow);border-color:var(--purple);}
+/* FOOTER */
+.footer-strip{background:var(--purple-deep);border-top:1px solid rgba(255,225,53,0.12);padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;font-family:'Special Elite',serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(max-width:768px){
+.playbill-cover-wrap{grid-template-columns:1fr;}
+.playbill-cover-photo img{min-height:300px;max-height:380px;}
+.playbill-cover-info{padding:2rem 1.5rem;}
+.program-note{grid-template-columns:1fr;gap:1.5rem;padding:2rem 1.5rem;}
+.act-content{padding:2.5rem 1.5rem;}
+.edu-block{grid-template-columns:1fr;}
+.project-row{grid-template-columns:44px 1fr 24px;gap:1rem;}
+.proj-detail-panel{padding-left:calc(44px + 1rem);}
+.exp-row{grid-template-columns:1fr;gap:0.3rem;}
+.half-btn{padding:0.6rem 1.2rem;font-size:0.65rem;}
+.footer-strip{flex-direction:column;gap:0.5rem;text-align:center;padding:1.2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+<div id="preshow" onclick="startShow()">
+<div class="preshow-bg"></div>
+<div class="preshow-inner">
+<div class="preshow-topbar">Please silence your phones &nbsp;✦&nbsp; Tonight's performance contains multitasking</div>
+<div class="preshow-box">
+<div class="preshow-playbill">PLAYBILL</div>
+<div class="preshow-venue">Cedar Rapids, Iowa &rarr; Evanston, Illinois</div>
+<div class="preshow-title">A Resume in<br><em>Three Acts</em></div>
+<div class="preshow-sub">Starring Aaron Butikofer</div>
+<div class="preshow-announcement">
+<strong>Tonight's cast</strong> includes one Northwestern dual-degree student<br>
+with a passion for theater and design, pool managing experience,<br>
+a choir that usually sounds good, two DTC projects,<br>
+and an unreasonable love of the Detroit Lions.<br><br>
+<strong>Late arrivals</strong> will be seated between acts.
+</div>
+<div class="pulse-btn">Click anywhere to begin</div>
+</div>
+</div>
+</div>
+<div id="main">
+<div class="marquee-bar">
+<span class="marquee-inner">
+✦ DELTA TAU DELTA PRESIDENT &middot; DELTA SIGMA PI &middot; BIENEN CHOIR &middot; WAA-MU EVENTS COORDINATOR &middot; EXCEL PROFICIENCY &middot; ALL-STATE CHOIR &middot; VALEDICTORIAN &middot; CEDAR RAPIDS &middot; NORTHWESTERN UNIVERSITY &middot; PERFORMANCE ART &middot; CIVIL ENGINEERING &middot; DETROIT LIONS &middot; BALLET &middot; JUGGLING &middot; VOCAL PERCUSSION &middot; DELTA TAU DELTA PRESIDENT &middot; DELTA SIGMA PI &middot; BIENEN CHOIR &middot; WAA-MU EVENTS COORDINATOR &middot; EXCEL PROFICIENCY &middot; ALL-STATE CHOIR &middot; VALEDICTORIAN &middot; CEDAR RAPIDS &middot; NORTHWESTERN UNIVERSITY &middot; PERFORMANCE ART &middot; CIVIL ENGINEERING &middot; DETROIT LIONS &middot; BALLET &middot; JUGGLING &middot; VOCAL PERCUSSION &nbsp;
+</span>
+</div>
+<header class="playbill-header">
+<div class="playbill-logo-row">
+<div class="playbill-logo">PLAYBILL</div>
+<div class="playbill-r">R</div>
+</div>
+<div class="playbill-venue">Northwestern University &middot; Evanston, Illinois</div>
+</header>
+<div class="playbill-cover-wrap">
+<div class="playbill-cover-photo">
+<img src="data:image/jpeg;base64,{imgs["leaves_portrait"]}" alt="Fall on Northwestern campus"/>
+</div>
+<div class="playbill-cover-info">
+<div class="playbill-name">Aaron<br><em>Butikofer</em></div>
+<div class="playbill-subtitle">A Resume in Three Acts</div>
+<nav>
+<ul class="playbill-nav">
+<li><a href="#" onclick="switchHalf('theater',null);return false;">Theater &amp; Arts</a></li>
+<li><a href="#" onclick="switchHalf('engineering',null);return false;">Engineering</a></li>
+<li><a href="#curtain">Contact</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<div class="program-note">
+<div class="program-note-head">A note from<br>the <em>artist.</em></div>
+<div class="program-note-body">
+<p>I'm a dual-degree student at Northwestern studying Performance Art and Civil Engineering — two disciplines that both require precision, collaboration, and a lot of creativity.</p>
+<p>I grew up in Cedar Rapids, Iowa, where I was valedictorian of my high school class and managed the local pool. At Northwestern, I work with the Communications team, manage equipment for our athletic teams, sing in Bienen Chorale, and coordinate events for the Waa-Mu Show. I care about community, performance, and have a passion for set design.</p>
+<div class="note-facts">
+<span class="fact-tag">Theater &amp; Performance</span>
+<span class="fact-tag">Civil Engineering</span>
+<span class="fact-tag">Set Design</span>
+<span class="fact-tag">All-State Choir</span>
+<span class="fact-tag">Valedictorian</span>
+<span class="fact-tag">Pool Manager</span>
+<span class="fact-tag">Detroit Lions</span>
+</div>
+</div>
+</div>
+<div class="half-switcher">
+<button class="half-btn active" onclick="switchHalf('theater',this)">Theater &amp; Arts</button>
+<button class="half-btn" onclick="switchHalf('engineering',this)">Engineering</button>
+</div>
+<div id="half-theater" class="half-panel active">
+<div class="act-wrap-purple">
+<div class="act-divider reveal">
+<div class="act-label">Act I</div>
+<div class="act-title">The <em>Training</em></div>
+</div>
+<hr class="act-rule"/>
+<div class="act-content reveal">
+<div class="edu-block">
+<div class="edu-card">
+<div class="edu-card-num">I</div>
+<div class="edu-school">Northwestern University &middot; Evanston, IL</div>
+<div class="edu-degree">Bachelor of Arts in Performance</div>
+<div class="edu-detail" style="margin-top:0.5rem;">
+<ul class="edu-detail">
+<li>Voice — Bradley Barrett &amp; Stephanie Rohr</li>
+<li>Ballet — Northwestern University</li>
+<li>Contemporary dance &amp; movement</li>
+<li>Acting — Meisner method</li>
+</ul>
+</div>
+<div class="edu-photo"><img src="data:image/jpeg;base64,{imgs["lab"]}" alt="Northwestern"/></div>
+</div>
+<div class="edu-card">
+<div class="edu-card-num">II</div>
+<div class="edu-school">University of Iowa &middot; Iowa City, IA</div>
+<div class="edu-degree">Dance &amp; Movement</div>
+<div class="edu-detail">
+<ul class="edu-detail">
+<li>Ballet</li>
+<li>Contemporary dance technique</li>
+</ul>
+</div>
+<div style="margin-top:1.8rem;">
+<div class="edu-school">Ruth Page Center &middot; Chicago, IL</div>
+<div class="edu-degree" style="font-size:1rem;margin-top:0.3rem;">Dance &amp; Movement</div>
+<div class="edu-detail">
+<ul class="edu-detail" style="margin-top:0.4rem;">
+<li>Ballet</li>
+<li>2026 Summer Dance Intensive</li>
+<li>Contemporary dance technique</li>
+</ul>
+</div>
+</div>
+<div style="margin-top:1.8rem;">
+<div class="edu-school">Washington High School &middot; Cedar Rapids, IA</div>
+<div class="edu-degree" style="font-size:1rem;margin-top:0.3rem;">Theater &amp; Choir</div>
+<div class="edu-detail">Valedictorian. Active in theater productions and choir through senior year.</div>
+</div>
+</div>
+</div>
+<div class="honors-strip">
+<div class="honor">
+<div class="honor-title">All-State Choir</div>
+<div class="honor-sub">Selected Iowa All-State performer</div>
+</div>
+<div class="honor">
+<div class="honor-title">Special Recognition</div>
+<div class="honor-sub">Principal role performance award</div>
+</div>
+<div class="honor">
+<div class="honor-title">Valedictorian</div>
+<div class="honor-sub">Washington High School &middot; Cedar Rapids</div>
+</div>
+</div>
+<div style="margin-top:3rem;">
+<div style="font-family:'Special Elite',serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,225,53,0.5);margin-bottom:1.5rem;">Skills &amp; Training</div>
+<div class="skills-grid">
+<div class="skill-block">
+<div class="skill-category">Voice</div>
+<div class="skill-items">Tenor 2 (A2&ndash;A4 chest/mixed, falsetto to D5)<br>Vocal percussion &mdash; intermediate<br>Trumpet &mdash; 8 years, strong sight-reader<br>Piano &mdash; chords &amp; inversions</div>
+</div>
+<div class="skill-block">
+<div class="skill-category">Dance &amp; Movement</div>
+<div class="skill-items">Ballet<br>Contemporary dance<br>6 years hip-hop<br>Partnering &amp; lifts<br>Windmill break move<br>Combat &mdash; 12+ years wrestling</div>
+</div>
+<div class="skill-block">
+<div class="skill-category">Specific Skills</div>
+<div class="skill-items">Juggling<br>Cartwheels<br>Northern US &amp; Canada dialect<br>Common dialect<br>Strong upper-body strength<br>Athletic throwing (football, baseball)</div>
+</div>
+<div class="skill-block">
+<div class="skill-category">General</div>
+<div class="skill-items">5&prime;9&Prime; &middot; 175 lbs<br>Caucasian<br>Excel proficiency<br>Waa-Mu Events Coordinator<br>Delta Tau Delta President<br>Delta Sigma Pi member</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="act-wrap-dark">
+<div class="act-divider reveal">
+<div class="act-label">Act II</div>
+<div class="act-title">The <em>Productions</em></div>
+</div>
+<hr class="act-rule"/>
+<div class="act-content reveal">
+<div class="projects-list">
+<div class="project-row" onclick="toggleDetail('t1')">
+<div class="proj-num">01</div>
+<div>
+<div class="proj-tag">Waa-Mu Show &middot; Northwestern &middot; 2026</div>
+<div class="proj-title">Dillo Day Disaster — Ensemble</div>
+<div class="proj-desc">Northwestern's original student-written musical.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="t1">
+Performed as part of the ensemble in the Waa-Mu Show — Northwestern's student-written musical, running since 1929.
+<div class="proj-photo landscape"><img src="data:image/jpeg;base64,{imgs["theater"]}" alt="Waa-Mu Show Opening Night"/></div>
+</div>
+<div class="project-row" onclick="toggleDetail('t2')">
+<div class="proj-num">02</div>
+<div>
+<div class="proj-tag">Ten-Minute Play Festival &middot; Northwestern &middot; 2026</div>
+<div class="proj-title">Leading Role</div>
+<div class="proj-desc">Leading role in Northwestern's Ten-Minute Play Festival.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="t2">
+<div class="proj-photo portrait"><img src="data:image/jpeg;base64,{imgs["performance"]}" alt="Ten-Minute Play Festival"/></div>
+</div>
+<div class="project-row" onclick="toggleDetail('t3')">
+<div class="proj-num">03</div>
+<div>
+<div class="proj-tag">TYA &middot; Northwestern &middot; 2026</div>
+<div class="proj-title">Barnyard Bash — Leading (TYA)</div>
+<div class="proj-desc">Theater for Young Audiences production at Northwestern.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="t3">
+Led a theater for young audiences production at Northwestern.
+</div>
+<div class="project-row" onclick="toggleDetail('t4')">
+<div class="proj-num">04</div>
+<div>
+<div class="proj-tag">Short Film &middot; Evanston, IL &middot; 2026</div>
+<div class="proj-title">Rap Batter — Actor / Beat Boxer</div>
+<div class="proj-desc">Actor and beat boxer in a short film production.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="t4">
+Acted and performed vocal percussion in a short film based in Evanston.
+</div>
+<div class="project-row" onclick="toggleDetail('t5')">
+<div class="proj-num">05</div>
+<div>
+<div class="proj-tag">Cedar Rapids, IA &middot; 2025</div>
+<div class="proj-title">Hello, Dolly! — Barnaby Tucker</div>
+<div class="proj-desc">Played Barnaby Tucker in a full production of Hello, Dolly!</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="t5">
+Performed Barnaby Tucker in Cedar Rapids.
+</div>
+<div class="project-row" onclick="toggleDetail('t6')">
+<div class="proj-num">06</div>
+<div>
+<div class="proj-tag">Cedar Rapids, IA &middot; 2025</div>
+<div class="proj-title">Inappropriate Audience Behavior — Array of Characters</div>
+<div class="proj-desc">Multi-character work in an original sketch production.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="t6">
+Played an array of characters in an original production in Cedar Rapids.
+</div>
+</div>
+</div>
+</div>
+<div class="act-wrap-purple">
+<div class="act-divider reveal">
+<div class="act-label">Act III</div>
+<div class="act-title">The <em>Experience</em></div>
+</div>
+<hr class="act-rule"/>
+<div class="act-content reveal">
+<div class="exp-list">
+<div class="exp-row">
+<div class="exp-period">2025&ndash;Present</div>
+<div>
+<div class="exp-org">Waa-Mu Show &middot; Northwestern</div>
+<div class="exp-title">Events Coordinator</div>
+<div class="exp-body">Running production events and logistics for Northwestern's student-written musical. Keeping timelines on track and making sure the team has what it needs from first rehearsal through opening night.</div>
+<div class="exp-photo"><img src="data:image/jpeg;base64,{imgs["rock"]}" alt="Rock painting — Dillo Headliner"/></div>
+</div>
+</div>
+<div class="exp-row">
+<div class="exp-period">2025&ndash;Present</div>
+<div>
+<div class="exp-org">Delta Tau Delta &middot; Northwestern</div>
+<div class="exp-title">Chapter President</div>
+<div class="exp-body">Managing chapter operations, organizing events, and representing the fraternity on campus. Balancing executive responsibilities alongside a full dual-degree course load.</div>
+</div>
+</div>
+<div class="exp-row">
+<div class="exp-period">2025&ndash;Present</div>
+<div>
+<div class="exp-org">Bienen Chorale &middot; Northwestern</div>
+<div class="exp-title">Choir Member</div>
+<div class="exp-body">Rehearsing and performing with Northwestern's collegiate ensemble.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div id="half-engineering" class="half-panel">
+<div class="act-wrap-purple">
+<div class="act-divider reveal">
+<div class="act-label">Act I</div>
+<div class="act-title">The <em>Education</em></div>
+</div>
+<hr class="act-rule"/>
+<div class="act-content reveal">
+<div class="edu-block">
+<div class="edu-card">
+<div class="edu-card-num">I</div>
+<div class="edu-school">Northwestern University &middot; Evanston, IL</div>
+<div class="edu-degree">Bachelor of Science in Civil Engineering</div>
+<div class="edu-detail">Dual degree alongside Performance Art. Structural systems, design thinking, and hands-on lab work. Anticipated June 2029.</div>
+<div class="gpa-big">3.55</div>
+<div class="gpa-lbl">Cumulative GPA</div>
+<div class="edu-photo"><img src="data:image/jpeg;base64,{imgs["lab"]}" alt="Northwestern chemistry lab"/></div>
+</div>
+<div class="edu-card">
+<div class="edu-card-num">II</div>
+<div class="edu-school">Washington High School &middot; Cedar Rapids, IA</div>
+<div class="edu-degree">High School Diploma</div>
+<div class="edu-detail">Valedictorian. Built the foundation in math and science that made Northwestern the natural next step.</div>
+</div>
+</div>
+<div class="honors-strip">
+<div class="honor">
+<div class="honor-title">Valedictorian</div>
+<div class="honor-sub">Washington High School &middot; Cedar Rapids</div>
+</div>
+<div class="honor">
+<div class="honor-title">Delta Sigma Pi</div>
+<div class="honor-sub">Professional Business Fraternity &middot; Northwestern</div>
+</div>
+<div class="honor">
+<div class="honor-title">Excel Proficient</div>
+<div class="honor-sub">Data analysis &amp; modeling</div>
+</div>
+</div>
+</div>
+</div>
+<div class="act-wrap-dark">
+<div class="act-divider reveal">
+<div class="act-label">Act II</div>
+<div class="act-title">The <em>Projects</em></div>
+</div>
+<hr class="act-rule"/>
+<div class="act-content reveal">
+<div class="projects-list">
+<div class="project-row" onclick="toggleDetail('e1')">
+<div class="proj-num">01</div>
+<div>
+<div class="proj-tag">DTC &middot; Shriners Children's Hospital &middot; Northwestern</div>
+<div class="proj-title">SpicAlign — Car Seat Width System</div>
+<div class="proj-desc">Partnered with Shriners Children's Hospital to design a solution for children who can't fit safely in standard car seats.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="e1">
+Kids with certain physical conditions can't be positioned safely in standard car seats — the door cart width is wrong for their bodies. We partnered with Shriners Children's Hospital to fix that. SpicAlign is a workflow-integrated guide that shows caregivers the correct seat width parameters and adjusts automatically using telescoping arms, a linear actuator, and foot pedals. From compacted to operational in about 15 seconds — hands-free.
+<div class="proj-photo portrait"><img src="data:image/jpeg;base64,{imgs["spicalign"]}" alt="SpicAlign team presentation"/></div>
+</div>
+<div class="project-row" onclick="toggleDetail('e2')">
+<div class="proj-num">02</div>
+<div>
+<div class="proj-tag">DTC &middot; BCA Cone &middot; Northwestern</div>
+<div class="proj-title">Bone Conducting Alarm</div>
+<div class="proj-desc">A traffic cone alarm inspired by a tuning fork — built from scratch in white space.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="e2">
+Standard traffic cones get knocked over constantly and nobody knows until it's too late. We built an alert system integrated directly into the cone, inspired by the resonance of a tuning fork. The result detects impact and broadcasts a signal, giving road crews real-time awareness of what's happening on site. Built entirely from white space — no template, no starting spec.
+</div>
+<div class="project-row" onclick="toggleDetail('e3')">
+<div class="proj-num">03</div>
+<div>
+<div class="proj-tag">Operations &middot; Cedar Rapids Aquatics</div>
+<div class="proj-title">Pool Operations Management</div>
+<div class="proj-desc">Running a public aquatics facility end-to-end — people, schedules, and safety.</div>
+</div>
+<div class="proj-arrow">↗</div>
+</div>
+<div class="proj-detail-panel" id="e3">
+Managing a public pool means you're responsible for everything that happens. Scheduling and supervising lifeguards, processing payroll, keeping attendance records, and handling whatever the day throws at you. A few thousand people use this facility every month.
+</div>
+</div>
+</div>
+</div>
+<div class="act-wrap-purple">
+<div class="act-divider reveal">
+<div class="act-label">Act III</div>
+<div class="act-title">The <em>Experience</em></div>
+</div>
+<hr class="act-rule"/>
+<div class="act-content reveal">
+<div class="exp-list">
+<div class="exp-row">
+<div class="exp-period">May–Sep 2026</div>
+<div>
+<div class="exp-org">Cedar Rapids Aquatics</div>
+<div class="exp-title">Pool Manager</div>
+<div class="exp-body">Running daily operations for a public pool that sees a few thousand visitors a month. Scheduling and supervising lifeguards, handling payroll, keeping records straight, and being the person who figures it out when something goes sideways.</div>
+</div>
+</div>
+<div class="exp-row">
+<div class="exp-period">2025&ndash;Present</div>
+<div>
+<div class="exp-org">Northwestern Athletics</div>
+<div class="exp-title">Equipment Manager</div>
+<div class="exp-body">Keeping gear organized and accounted for across multiple athletic programs — the person every coach can count on so nothing's missing when it matters.</div>
+</div>
+</div>
+<div class="exp-row">
+<div class="exp-period">2025&ndash;Present</div>
+<div>
+<div class="exp-org">Northwestern Communications</div>
+<div class="exp-title">Comms Aide</div>
+<div class="exp-body">Supporting Northwestern's communications team. Writing, coordinating, and helping tell the university's story accurately and on deadline.</div>
+</div>
+</div>
+<div class="exp-row">
+<div class="exp-period">2021&ndash;2023</div>
+<div>
+<div class="exp-org">Cedar Rapids Aquatics</div>
+<div class="exp-title">Lifeguard &amp; Head Guard</div>
+<div class="exp-body">Started as a guard and worked up to head guard. The job isn't really about watching — it's about reading a situation before it becomes one. Managed a team, covered emergencies, kept the place running.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div id="curtain" class="curtain-call">
+<div class="curtain-head">Take a bow.<br><em>Then reach out.</em></div>
+<div class="curtain-sub">The show's not over — there's a whole second act waiting to be written.</div>
+<div class="curtain-links">
+<a href="mailto:aaronbutikofer2029@u.northwestern.edu" class="curtain-link">&#9993; Email</a>
+<a href="https://www.linkedin.com/in/aaron-butikofer2" target="_blank" class="curtain-link">LinkedIn</a>
+<a href="tel:3193618366" class="curtain-link">&#9742; Call</a>
+</div>
+</div>
+<footer class="footer-strip">
+<span>&copy; 2026 Aaron Butikofer</span>
+<span>Cedar Rapids &middot; Evanston &middot; Everywhere Else</span>
+</footer>
+</div>
+<script>
+function startShow(){
+document.getElementById('preshow').classList.add('fade-out');
+setTimeout(()=>{
+document.getElementById('main').classList.add('visible');
+}, 600);
+}
+function switchHalf(which, btn){
+document.querySelectorAll('.half-panel').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.half-btn').forEach(b => b.classList.remove('active'));
+document.getElementById('half-' + which).classList.add('active');
+if(btn) btn.classList.add('active');
+setTimeout(() => {
+document.querySelectorAll('#half-' + which + ' .reveal:not(.in)').forEach(r => obs.observe(r));
+}, 50);
+document.querySelector('.half-switcher').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function toggleDetail(id){
+const p = document.getElementById(id);
+const open = p.classList.contains('open');
+document.querySelectorAll('.proj-detail-panel').forEach(x => x.classList.remove('open'));
+if(!open) p.classList.add('open');
+}
+const obs = new IntersectionObserver(entries => {
+entries.forEach(e => {
+if(e.isIntersecting){
+e.target.classList.add('in');
+obs.unobserve(e.target);
+}
+});
+}, {threshold: 0.08});
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
